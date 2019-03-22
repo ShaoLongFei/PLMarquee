@@ -11,15 +11,14 @@ import java.util.regex.Pattern
 object SmileTools {
 
     //根据密度取图片的大小值，即：当屏幕density=1 的时候
-    val DEFAULT_SMALL_SIZE:Int = 25
-    val DEFAULT_LARGE_SIZE:Int = 250
+    val DEFAULT_SMALL_SIZE: Int = 25
+    val DEFAULT_LARGE_SIZE: Int = 250
 
-    private val spannableFactory = Spannable.Factory
-            .getInstance()
+    private val spannableFactory = Spannable.Factory.getInstance()
 
     //存放表情和key值的集合
-     var emoticons = HashMap<Pattern, Int>()
-    var  emoticonsKey = mutableListOf<String>()
+    var emoticons = HashMap<Pattern, Int>()
+    var emoticonsKey = mutableListOf<String>()
 
     //定义表情相对的符号
     val f_static_00 = "[):0]"
@@ -88,9 +87,7 @@ object SmileTools {
     val f_static_062 = "[(D27)]"
 
 
-
     init {
-
 
 
         addPattern(emoticons, f_static_00, R.mipmap.f_static_00)
@@ -166,66 +163,28 @@ object SmileTools {
         emoticonsKey.add(smile)
     }
 
-    /**
-     * replace existing spannable with smiles
-
-     * @param context
-     * *
-     * @param spannable
-     * *
-     * @small 是否为小图，文本框和展示设置不同大小表情图
-     * @return
-     */
-    fun addSmiles(context: Context, spannable: Spannable,small:Boolean): Boolean {
-        var hasChanges = false
+    fun addSmiles(context: Context, spannable: Spannable, large: Boolean) {
         for ((key, value) in emoticons) {
             val matcher = key.matcher(spannable)
             while (matcher.find()) {
-                var set = true
-                for (span in spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan::class.java))
-                    if (spannable.getSpanStart(span) >= matcher.start() && spannable.getSpanEnd(span) <= matcher.end())
-                        spannable.removeSpan(span)
-                    else {
-                        set = false
-                        break
-                    }
-                if (set) {
-                    hasChanges = true
-                    val drawable = context.resources.getDrawable(
-                            value)
-                    val density: Int = context.resources.displayMetrics.density.toInt()
-                    if (!small) {
-                        drawable.setBounds(0, 0, DEFAULT_SMALL_SIZE * density, DEFAULT_SMALL_SIZE * density)// 这里设置图片的大小
-                    }else
-                        drawable.setBounds(0,0, DEFAULT_LARGE_SIZE*density,DEFAULT_LARGE_SIZE*density  )
-                    val imageSpan = ImageSpan(drawable,
-                            ImageSpan.ALIGN_BOTTOM)
-                    spannable.setSpan(imageSpan, matcher.start(),
-                            matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
+                val drawable = context.resources.getDrawable(value)
+                val density: Int = context.resources.displayMetrics.density.toInt()
+                if (!large) {
+                    drawable.setBounds(0, 0, DEFAULT_SMALL_SIZE * density, DEFAULT_SMALL_SIZE * density)// 这里设置图片的大小
+                } else
+                    drawable.setBounds(0, 0, DEFAULT_LARGE_SIZE * density, DEFAULT_LARGE_SIZE * density)
+                val imageSpan = ImageSpan(drawable,
+                        ImageSpan.ALIGN_BOTTOM)
+                spannable.setSpan(imageSpan, matcher.start(),
+                        matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
-        return hasChanges
     }
 
-    fun getSmiledText(context: Context, text: CharSequence,small:Boolean): Spannable {
-        val spannable = spannableFactory.newSpannable(text)
-        addSmiles(context, spannable,small)
-        return spannable
-    }
-
-    fun containsKey(key: String): Boolean {
-        var b = false
-        for ((key1) in emoticons) {
-            val matcher = key1.matcher(key)
-            if (matcher.find()) {
-                b = true
-                break
-            }
+        fun getSmiledText(context: Context, text: CharSequence, large: Boolean): Spannable {
+            val spannable = spannableFactory.newSpannable(text)
+            addSmiles(context, spannable, large)
+            return spannable
         }
 
-        return b
     }
-
-}

@@ -11,7 +11,7 @@
     <style name="settingCheckBoxStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/color666</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
     <!--设置页 字体、背景 添加表情按钮-->
@@ -22,7 +22,8 @@
         <item name="android:layout_marginTop">@dimen/dp_2</item>
         <item name="android:textColor">@color/color666</item>
         <item name="android:layout_height">@dimen/dp_40</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
 </resources>

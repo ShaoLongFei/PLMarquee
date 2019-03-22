@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_setting.*
 import shain.ypt.com.plmarquee.R
 import shain.ypt.com.plmarquee.adapter.Adapter
 import shain.ypt.com.plmarquee.myview.ItemSpace
-import shain.ypt.com.plmarquee.utils.ToastUtil
 
 
 class SettingActivity : AppCompatActivity(), View.OnClickListener {
@@ -30,9 +29,9 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         //是否下划线
         val IS_UNDERLINE = "IS_UNDERLINE"
         //字体颜色
-        val FONT_COLOR ="FONT_COLOR"
+        val FONT_COLOR = "FONT_COLOR"
         //背景颜色
-        val BG_COLOR ="BG_COLOR"
+        val BG_COLOR = "BG_COLOR"
         //设置字体颜色
         val SET_FONT_COLOR = 1
         //设置背景颜色
@@ -40,12 +39,11 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         //添加表情
         val SET_EXPRESSION = 3
         //当前设置，默认为0
-        var CURR_SET:Int = 0
+        var CURR_SET: Int = 0
     }
 
 
-
-    var mGridManager: GridLayoutManager?= null
+    var mGridManager: GridLayoutManager? = null
     var adapter: Adapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,18 +57,19 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
      * 初始化对象
      */
     private fun init() {
-        mGridManager = GridLayoutManager(this,6)
-         mRecyclerView.addItemDecoration(ItemSpace(4))
+        mGridManager = GridLayoutManager(this, 6)
+        mRecyclerView.addItemDecoration(ItemSpace(4))
     }
 
     /**
      * 添加点击监听
      */
     private fun setListener() {
-         btSubmit!!.setOnClickListener(this)
-         tvAddExpression!!.setOnClickListener(this)
-         tvBgColor!!.setOnClickListener(this)
-         tvFontColor!!.setOnClickListener(this)
+        btSubmit!!.setOnClickListener(this)
+        tvAddExpression!!.setOnClickListener(this)
+        tvBgColor!!.setOnClickListener(this)
+        tvFontColor!!.setOnClickListener(this)
+
     }
 
     /**
@@ -93,26 +92,20 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btSubmit ->
                 if (etText!!.text != null)
                     showMarquee(etText!!.text.toString())
-            else
-                Toast.makeText(this@SettingActivity, "", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this@SettingActivity, "出现错误", Toast.LENGTH_SHORT).show()
         }
     }
 
-    /**
-     * 选择表情
-     */
-    private fun selectExpression() {
-        ToastUtil.show(this, "我们在尽力开发中，尽请期待！")
-    }
 
     /**
      * 选择颜色
      */
-    private fun  showGrid(textView: TextView?, etText: EditText?) {
-        adapter  = Adapter(this, textView!!, etText!!)
-        mRecyclerView.layoutManager=mGridManager
+    private fun showGrid(textView: TextView?, etText: EditText?) {
+        adapter = Adapter(this, textView!!, etText!!)
+        mRecyclerView.layoutManager = mGridManager
         mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.adapter =adapter
+        mRecyclerView.adapter = adapter
     }
 
     /**
@@ -123,19 +116,17 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
         intent.putExtra(TEXT_VALUE, text)
         intent.putExtra(IS_BOLD, cbBold.isChecked)
         intent.putExtra(IS_ITALIC, cbItalic.isChecked)
-        intent.putExtra(IS_UNDERLINE,cbUnderline.isChecked)
-        if(tvBgColor.tag!=null){
-            val color:Int = tvFontColor.tag as Int
-            intent.putExtra(FONT_COLOR,color)
+        intent.putExtra(IS_UNDERLINE, cbUnderline.isChecked)
+        if (tvBgColor.tag != null) {
+            val color: Int = tvFontColor.tag as Int
+            intent.putExtra(FONT_COLOR, color)
         }
-        if(tvBgColor.tag!=null){
-            val color:Int = tvBgColor.tag as Int
-            intent.putExtra(BG_COLOR,color)
+        if (tvBgColor.tag != null) {
+            val color: Int = tvBgColor.tag as Int
+            intent.putExtra(BG_COLOR, color)
         }
         startActivity(intent)
     }
-
-
 
 
 }

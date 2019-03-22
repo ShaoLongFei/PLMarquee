@@ -14,10 +14,7 @@ import shain.ypt.com.plmarquee.utils.SmileTools
 import shain.ypt.com.plmarquee.utils.getColor
 
 
-
-class Adapter(private val mContext: Context, private var mTextView: TextView,private var mEtText:EditText) : RecyclerView.Adapter<Adapter.ViewHolder>(), View.OnClickListener {
-
-    private val TAG = "Adapter"
+class Adapter (private val mContext: Context, private var mTextView: TextView, private var mEtText: EditText) : RecyclerView.Adapter<Adapter.ViewHolder>(), View.OnClickListener {
 
     //1为加载,2为清空
     private var IS_NULL = 1
@@ -46,29 +43,30 @@ class Adapter(private val mContext: Context, private var mTextView: TextView,pri
             3 -> {
                 //SET_EXPRESSION
                 holder.mTextView.visibility = View.VISIBLE
-                var smile:String = SmileTools.emoticonsKey[position]
+                var smile: String = SmileTools.emoticonsKey[position]
                 val span = SmileTools
-                        .getSmiledText(mContext,smile ,false)
+                        .getSmiledText(mContext, smile, false)
                 // 设置内容
                 holder.mTextView.setText(span, TextView.BufferType.SPANNABLE)
                 holder.parent.tag = smile
-            }else -> {
+            }
+            else -> {
             }
         }
         holder.parent.setOnClickListener(this)
     }
 
     override fun getItemCount(): Int {
-        if (IS_NULL == 1){
+        if (IS_NULL == 1) {
             //字体颜色和背景颜色
-            if (SettingActivity.CURR_SET==1|| SettingActivity.CURR_SET==2){
+            if (SettingActivity.CURR_SET == 1 || SettingActivity.CURR_SET == 2) {
                 return getColor().size
-            }else{
+            } else {
                 //表情
-               return SmileTools.emoticons.size
+                return SmileTools.emoticons.size
             }
 
-        }else return 0
+        } else return 0
 
     }
 
@@ -77,25 +75,22 @@ class Adapter(private val mContext: Context, private var mTextView: TextView,pri
         //设置字体和背景颜色
         if (SettingActivity.CURR_SET == 1 || SettingActivity.CURR_SET == 2) {
             val color = v.tag as Int
-            if (mTextView==null) return
+            if (mTextView == null) return
             mTextView.setTextColor(mContext.resources.getColor(color))
             mTextView.tag = color
         } else {
             //设置表情
-            if (mEtText==null) return
+            if (mEtText == null) return
             var smileStr = v.tag.toString()
             setSmile(smileStr)
-
-
         }
         clear()
     }
 
 
     //设置表情
-    private fun setSmile(smileStr:String) {
-//        ToastUtil.show(mContext,smileStr)
-         mEtText.append(SmileTools.getSmiledText(mContext,smileStr,false))
+    private fun setSmile(smileStr: String) {
+        mEtText.append(SmileTools.getSmiledText(mContext, smileStr, false))
     }
 
 
@@ -114,8 +109,8 @@ class Adapter(private val mContext: Context, private var mTextView: TextView,pri
         var parent: LinearLayout
 
         init {
-            parent = itemView.findViewById(R.id.parent) as LinearLayout
-            mTextView = itemView.findViewById(R.id.textView) as TextView
+            parent = itemView.findViewById(R.id.parent)
+            mTextView = itemView.findViewById(R.id.textView)
         }
     }
 }
